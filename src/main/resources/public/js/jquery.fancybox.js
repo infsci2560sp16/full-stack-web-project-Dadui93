@@ -1,3 +1,5 @@
+/* jshint ignore:start */
+
 (function(window, document, $, undefined) {
     "use strict";
 
@@ -2019,3 +2021,4 @@
     });
 
 }(window, document, jQuery));
+/* jshint ignore:end */
