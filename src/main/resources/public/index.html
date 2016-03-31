@@ -31,6 +31,7 @@
 	
 <body>
 <!-- banner -->
+
 	<div class="banner-with-text">
 		<div class="container">
 <!-- header -->	
@@ -127,6 +128,7 @@ Pentax is a brand name used primarily by Ricoh Imaging Company for cameras, spor
 	</div>
 	</div>
 <!-- //banner -->
+
 <!-- banner-bottom -->
 	<div class="banner-bdy">
 		<div class="container">
@@ -181,9 +183,76 @@ Pentax is a brand name used primarily by Ricoh Imaging Company for cameras, spor
 				
 				<div class="clearfix"> </div>
 			</div>
+			<div style="float: left; margin-right:100px; margin-left:100px; margin-top:50px;">
+				<h4>About me</h4>
+				<p><a href="#">${Me}</a></p>
+				<p>						
+					<#if Me=="I am Haoxiang Sun">
+						I love  Photography
+					<#elseif pittInfo=="@pitt">
+						I love trip
+					<#else>
+						hahahaha
+					</#if>
+				<p>		
+				
+				<button id="get-info-btn">Know more about me</button>
+				<ul class="social-in" id="my-info">
+				</ul>
+			</div>
+
+			<div style="float: left; margin-right:100px; margin-left:100px; margin-top:60px;">
+					<ul id="music-info" style="list-style: none;">
+					<#list lst as item>
+						<li><a>${item}</a></li>
+					</#list>
+				</ul>
+				<div id="music-edit">
+					<input type="text" name="info" />
+					<button>Submit</button>
+				</div>		
+			</div>
+
+
+						<div style="float:left; margin-top:30px; margin-right:100px; margin-left:100px;  ">
+				<h3>Links</h3>
+				<div class="cur-right" id="peoples">
+						<!--<div class="product">
+							<a href="#" class="fashion"><img class="img-responsive " src="images/images.jpeg" alt=""></a>
+							<div class="grid-product">
+							<p>Singers</p>
+							<a href="#" class="more-info">More Info <i> </i></a> 
+						</div>
+						<div class="clearfix"> </div>
+						</div>
+						<div class="product">
+							<a href="#" class="fashion"><img class="img-responsive " src="images/coldplay.jpg" alt=""></a>
+							<div class="grid-product">
+							<p>Bands</p>
+							<a href="#" class="more-info">More Info <i> </i></a> 
+							</div>
+						<div class="clearfix"> </div>
+						</div>
+						<div class="product">
+							<a href="#" class="fashion"><img class="img-responsive" src="images/producer.jpg" alt=""></a>
+							<div class="grid-product">
+							<p>Producer</p>
+							<a href="#" class="more-info">More Info <i> </i></a> 
+							</div>
+						<div class="clearfix"> </div>
+						</div>
+						
+					</div>-->
+				</div>
+		</div>
 	</div>
 	</div>
+
+
+
 	</div>
+
+
 <!-- //banner-bottom -->
 
 <!-- here stars scrolling icon -->
@@ -203,5 +272,70 @@ Pentax is a brand name used primarily by Ricoh Imaging Company for cameras, spor
 			});
 	</script>
 <!-- //here ends scrolling icon -->
+<script>
+  
+  	function Aboutme() {
+  		var $btn = $("#get-info-btn");
+  		$btn.click(function(){
+  			$.get("/api/my_info", function( data ) {
+			  console.log(data);
+			  var dataJson = JSON.parse(data);
+			  var $container = $('#my-info')
+			  for (var key in dataJson) {
+			  	var $li = $('<li>');
+			  	$li.html(dataJson[key]);
+			  	$container.append($li);
+			  }
+			  $btn.hide();
+			  
+			});
+  		})
+  	}
+  	
+  	function advice() {
+  		var $container = $('#music-edit');
+  		var $btn = $container.find('button');
+  		var $input = $container.find('input');
+
+  		$btn.click(function(){
+	  		$.post( "/api/add_music_info", { info: $input.val()})
+			  .done(function( data ) {
+			    data = JSON.parse(data);
+			    $('#music-info').append('<li><a>'+ data.info +'</a></li>')
+			  });
+	  			
+	  		})
+  	}
+  	
+  	function linkss() {
+  		var $container = $('#peoples');
+  		console.log('get');
+  		$.get( "/api/peoples", function( xml ) {
+  	      var $xml = $(xml);
+  	      var $peoples = $xml.find('people');
+		  $.each( $peoples, function() {
+			console.log(this);
+		  	var $product = $('<div class="product">');
+		  	var $a = $('<a href="#" class="fashion">');
+		  	$product.append($a);
+		  	
+		  	var $grid = $('<div class="grid-product">');
+		  	var $p = $('<p>'+ $(this).find('name').html() +'</p>');
+		  	$grid.append($p);
+		  	$product.append($grid);
+		  	$product.append($('<div class="clearfix">'));
+		  	
+		  	
+		  	
+		  	$container.append($product);
+		  });
+
+		});
+  	}
+  	
+  	Aboutme();
+  	advice();
+  	linkss();
+  </script>
 </body>
 </html>
