@@ -74,7 +74,7 @@ public class RestfulRoutes {
                 try{
                 connection = DatabaseUrl.extract().getConnection();
                 Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM INFO WHERE NAME='HAOXIANG';");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE NAME='HAOXIANG';");
                 
                 while(rs.next()){
                 Map<String, Object> result = new HashMap<>();
