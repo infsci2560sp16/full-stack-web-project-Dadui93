@@ -16,9 +16,9 @@
   	function Aboutme() {
   		var $btn = $("#get-info-btn");
   		$btn.click(function(){
-  			$.get("/api/my_info", function( data2 ) {
-			  console.log(data2);
-			  var dataJson = JSON.parse(data2);
+  			$.get("/api/my_info", function( data ) {
+			  console.log(data);
+			  var dataJson = JSON.parse(data);
 			  var $container = $('#my-info')
 			  for (var key in dataJson) {
 			  	var $li = $('<li>');

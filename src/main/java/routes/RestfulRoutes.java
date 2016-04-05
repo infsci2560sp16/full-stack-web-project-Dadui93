@@ -69,7 +69,7 @@ public class RestfulRoutes {
             
             
             get("/api/my_info", (req, res) -> {
-                List<Object> data2 =new ArrayList<>();
+                List<Object> data =new ArrayList<>();
                 Connection connection=null;
                 try{
                 connection = DatabaseUrl.extract().getConnection();
@@ -77,14 +77,14 @@ public class RestfulRoutes {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM INFO WHERE NAME='HAOXIANG';");
                 
                 while(rs.next()){
-                Map<String, Object> data = new HashMap<>();
-                data.put("Name", rs.getString("name"));
-                data.put("Phone", rs.getString("phone"));
-                data.put("Email", rs.getString("email"));
-                data2.add(data);
+                Map<String, Object> result = new HashMap<>();
+                result.put("Name", rs.getString("name"));
+                result.put("Phone", rs.getString("phone"));
+                result.put("Email", rs.getString("email"));
+                data.add(result);
                 }
             }catch (Exception e){
-                data2.add("error"+e);
+                data.add("error"+e);
             }finally{
                 if(connection !=null)
                     try{
@@ -93,7 +93,7 @@ public class RestfulRoutes {
                         
                     }
             }
-                return data2;
+                return data;
             }, gson::toJson);
             
             
