@@ -20,10 +20,10 @@
 			  console.log(data);
 			  var dataJson = JSON.parse(data);
 			  var $container = $('#my-info')
-			  for (var i = 0; i < dataJson.length; i++) {
+			  for (var key in dataJson) {
 			  	var $li = $('<li>');
 			  	$li.html(dataJson[key]);
-			  	$container.append(dataJson[i]);
+			  	$container.append($li);
 			  }
 			  $btn.hide();
 			  
