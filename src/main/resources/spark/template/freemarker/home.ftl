@@ -23,7 +23,7 @@
 			  for (var i = 0; i < dataJson.length; i++) {
 			  	var $li = $('<li>');
 			  	$li.html(dataJson[key]);
-			  	$container.append(dataJson[i].NAME);
+			  	$container.append(dataJson[i].name);
 			  }
 			  $btn.hide();
 			  
