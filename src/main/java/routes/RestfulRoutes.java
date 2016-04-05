@@ -66,14 +66,33 @@ public class RestfulRoutes {
             }, new FreeMarkerEngine());
             
             
-            get("/api/my_info", (req, res) -> {
+           get("/api/my_info", (req, res) -> {
+                List<Object> data2 =new ArrayList<>();
+                Connection connection=null;
+                try{
+                connection = DatabaseUrl.extract().getConnection();
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM INFO WHERE NAME='HAOXIANG';");
+                
+                while(rs.next()){
                 Map<String, Object> data = new HashMap<>();
-                data.put("Name", "Haoxiang Sun");
-                data.put("Phone", "412-652-7800");
-                data.put("Email", "has129@pitt.edu");
-                return data;
+                data.put("Name", rs.getString("name"));
+                data.put("Phone", rs.getString("phone"));
+                data.put("Email", rs.getString("email"));
+                data2.add(data);
+                }
+            }catch (Exception e){
+                data2.add("error"+e);
+            }finally{
+                if(connection !=null)
+                    try{
+                        connection.close();
+                    }catch(SQLException e){
+                        
+                    }
+            }
+                return data2;
             }, gson::toJson);
-            
             
             post("/api/add_music_info", (req, res) -> {
             	String info = req.queryParams("info");
