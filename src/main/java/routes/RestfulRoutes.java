@@ -69,6 +69,7 @@ public class RestfulRoutes {
             
             
             get("/api/my_info", (req, res) -> {
+                List<Object> data =new ArrayList<>();
                 Connection connection=null;
                 try{
                 connection = DatabaseUrl.extract().getConnection();
@@ -80,9 +81,10 @@ public class RestfulRoutes {
                 result.put("Name", rs.getString("name"));
                 result.put("Phone", rs.getString("phone"));
                 result.put("Email", rs.getString("email"));
+                data.add(result);
                 }
             }catch (Exception e){
-                result.add("error"+e);
+                data.add("error"+e);
             }finally{
                 if(connection !=null)
                     try{
@@ -91,7 +93,7 @@ public class RestfulRoutes {
                         
                     }
             }
-                return result;
+                return data;
             }, gson::toJson);
             
             
