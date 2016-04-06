@@ -13,23 +13,40 @@
 
 <script>
   
-  	function Aboutme() {
-  		var $btn = $("#get-info-btn");
-  		$btn.click(function(){
-  			$.get("/api/my_info", function( data ) {
-			  console.log(data);
-			  var dataJson = JSON.parse(data);
-			  var $container = $('#my-info')
-			  for (var key in dataJson) {
-			  	var $li = $('<li>');
-			  	$li.html(dataJson[key]);
-			  	$container.append($li);
-			  }
-			  $btn.hide();
+  	// function Aboutme() {
+  	// 	var $btn = $("#get-info-btn");
+  	// 	$btn.click(function(){
+  	// 		$.get("/api/my_info", function( data ) {
+			//   console.log(data);
+			//   var dataJson = JSON.parse(data);
+
+			//   var $container = $('#my-info')
+			//   for (var key in dataJson) {
+			//   	var $li = $('<li>');
+			//   	console.log(dataJson[key]);
+			//   	$li.html(dataJson[key]);
+			//   	$container.append($li);
+			//   }
+			//   $btn.hide();
 			  
-			});
-  		})
-  	}
+			// });
+  	// 	})
+  	// }
+$(function() {	$.ajax({
+		url : "/api/my_info",
+		type : "get",
+		success : function(result) {
+			var cars = JSON.parse(result);
+			console.log(result);
+			for ( var i = 0; i < cars.length; i++) {
+				console.log(cars[i].name);
+				$("#my-info").prepend(
+						"<li>" + cars[i].Name + " " + cars[i].Phone + " " + cars[i].Email + "</li>"
+				);
+			}
+		}
+	});
+});
   	
   	function advice() {
   		var $container = $('#music-edit');
@@ -260,8 +277,8 @@ Pentax is a brand name used primarily by Ricoh Imaging Company for cameras, spor
 					</#if>
 				<p>		
 				
-				<button id="get-info-btn">Know more about me</button>
-				<ul class="social-in" id="my-info">
+<!-- 				<button id="get-info-btn" type="submit" action="Aboutme()">Know more about me</button>
+ -->				<ul class="social-in" id="my-info">
 				</ul>
 			</div>
 
